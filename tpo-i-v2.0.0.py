@@ -132,3 +132,10 @@ def crear_area(areas, nombre):
     area = {"id": generar_siguiente_id(areas), "nombre": nombre}
     areas.append(area)
     return area
+
+
+def buscar_area_por_id(areas, area_id):
+    for area in areas:
+        if area["id"] == area_id:
+            return area
+    return None
