@@ -918,3 +918,42 @@ def ejecutar_gestion_areas(areas, medicos):
                 print(mensaje)
             case 6:
                 continuar_submenu = False
+
+
+def ejecutar_gestion_medicos(medicos, areas, turnos):
+    continuar_submenu = True
+    while continuar_submenu:
+        print("\n--- GESTION DE MEDICOS ---")
+        print("1. Listar medicos")
+        print("2. Crear medico")
+        print("3. Reasignar medico a otra area")
+        print("4. Eliminar medico")
+        print("5. Volver al menu principal")
+        opcion = pedir_entero_valido("Elija una opcion (1-5): ", 1, 5)
+
+        match opcion:
+            case 1:
+                listar_medicos(medicos, areas)
+            case 2:
+                if len(areas) == 0:
+                    print("Primero tiene que crear al menos un area.")
+                else:
+                    area = elegir_area(areas)
+                    nombre = pedir_texto_valido("Nombre y apellido del medico: ", 5, 30, transformar="titulo")
+                    medico = crear_medico(medicos, nombre, area["id"])
+                    print(f"Medico creado con id {medico['id']}.")
+            case 3:
+                listar_medicos(medicos, areas)
+                medico_id = pedir_entero_valido("Id del medico: ", 1, generar_siguiente_id(medicos))
+                area = elegir_area(areas)
+                if actualizar_medico(medicos, medico_id, area_id_nuevo=area["id"]):
+                    print("Medico reasignado.")
+                else:
+                    print("No existe un medico con ese id.")
+            case 4:
+                listar_medicos(medicos, areas)
+                medico_id = pedir_entero_valido("Id del medico a eliminar: ", 1, generar_siguiente_id(medicos))
+                ok, mensaje = eliminar_medico(medicos, turnos, medico_id)
+                print(mensaje)
+            case 5:
+                continuar_submenu = False
