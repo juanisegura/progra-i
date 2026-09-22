@@ -727,3 +727,20 @@ def guardar_pacientes(pacientes):
         )
         lineas.append(linea)
     guardar_lineas_en_archivo(ARCHIVO_PACIENTES, lineas)
+
+
+def cargar_pacientes():
+    lineas = leer_lineas_archivo(ARCHIVO_PACIENTES)
+    pacientes = []
+    for linea in lineas:
+        try:
+            partes = linea.split(SEPARADOR_CAMPO)
+            pacientes.append({
+                "dni": partes[0],
+                "nombre": partes[1],
+                "edad": int(partes[2]),
+                "mail": partes[3],
+            })
+        except (ValueError, IndexError):
+            print(f"Linea invalida en {ARCHIVO_PACIENTES}, se ignora: {linea}")
+    return pacientes
