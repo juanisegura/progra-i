@@ -359,6 +359,20 @@ def mostrar_pacientes_resultado(pacientes_filtrados, titulo):
         print(f"{p['dni']:<10}{p['nombre']:<26}{p['edad']:<5}{p['mail']}")
 
 
+def corregir_dni_paciente(pacientes, turnos, dni_actual, dni_nuevo):
+    paciente = buscar_paciente_por_dni(pacientes, dni_actual)
+    if paciente is None:
+        return False, "No existe un paciente con ese DNI."
+    if dni_nuevo != dni_actual and buscar_paciente_por_dni(pacientes, dni_nuevo) is not None:
+        return False, "Ya existe otro paciente registrado con ese DNI nuevo."
+
+    paciente["dni"] = dni_nuevo
+    for turno in turnos:
+        if turno["paciente_dni"] == dni_actual:
+            turno["paciente_dni"] = dni_nuevo
+    return True, "DNI corregido (se actualizaron tambien sus turnos)."
+
+
 # --- Seleccion interactiva para reservar un turno -------------------------
 
 def elegir_area(areas):
