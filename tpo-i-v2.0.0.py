@@ -174,3 +174,10 @@ def crear_medico(medicos, nombre, area_id):
     medico = {"id": generar_siguiente_id(medicos), "nombre": nombre, "area_id": area_id}
     medicos.append(medico)
     return medico
+
+
+def buscar_medico_por_id(medicos, medico_id):
+    for medico in medicos:
+        if medico["id"] == medico_id:
+            return medico
+    return None
