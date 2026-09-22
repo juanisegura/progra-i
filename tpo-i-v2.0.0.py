@@ -245,3 +245,13 @@ def mostrar_franjas_libres(nombre_dia, fecha_texto, franjas_libres):
 
 def marcar_franja(matriz, dia_idx, franja_idx, estado):
     matriz[dia_idx][franja_idx] = estado
+
+
+def buscar_primer_hueco_libre(matriz, cantidad_dias, cantidad_franjas, dia_idx=0, franja_idx=0):
+    if dia_idx >= cantidad_dias:
+        return None
+    if franja_idx >= cantidad_franjas:
+        return buscar_primer_hueco_libre(matriz, cantidad_dias, cantidad_franjas, dia_idx + 1, 0)
+    if matriz[dia_idx][franja_idx] == "Libre":
+        return (dia_idx, franja_idx)
+    return buscar_primer_hueco_libre(matriz, cantidad_dias, cantidad_franjas, dia_idx, franja_idx + 1)
