@@ -65,3 +65,9 @@ def pedir_texto_valido(mensaje, min_len, max_len, transformar=None):
 
 def formatear_monto(monto):
     return f"${monto:,.0f}".replace(",", ".")
+
+
+# --- Calendario (Matrices auxiliares + Recursividad) ---------------------
+
+def es_bisiesto(anio):
+    return anio % 4 == 0 and (anio % 100 != 0 or anio % 400 == 0)
