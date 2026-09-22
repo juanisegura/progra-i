@@ -621,3 +621,31 @@ def reprogramar_turno(turnos, disponibilidad, fechas, franjas, weekday_hoy, turn
     turno["anio"], turno["mes"], turno["dia"] = anio, mes, dia
     turno["hora"] = franjas[franja_idx_nuevo]
     return True, "Turno reprogramado."
+
+
+def generar_comprobante(paciente, area, medico, turno):
+    fecha_texto = f"{turno['dia']:02d}/{turno['mes']:02d}/{turno['anio']}"
+    lineas = []
+    lineas.append("=" * 50)
+    lineas.append("COMPROBANTE DE RESERVA DE TURNO")
+    lineas.append(SANATORIO_NOMBRE)
+    lineas.append("=" * 50)
+    lineas.append(f"{'Paciente:':<16}{paciente['nombre']}")
+    lineas.append(f"{'DNI:':<16}{paciente['dni']}")
+    lineas.append(f"{'Edad:':<16}{paciente['edad']}")
+    lineas.append(f"{'Mail:':<16}{paciente['mail']}")
+    lineas.append("-" * 50)
+    lineas.append(f"{'Area:':<16}{area['nombre']}")
+    lineas.append(f"{'Medico:':<16}Dr/a. {medico['nombre']}")
+    lineas.append(f"{'Estudio:':<16}{turno['estudio']}")
+    lineas.append(f"{'Tipo de turno:':<16}{turno['tipo'].capitalize()}")
+    lineas.append(f"{'Fecha:':<16}{fecha_texto}")
+    lineas.append(f"{'Horario:':<16}{turno['hora']}")
+    lineas.append("-" * 50)
+    lineas.append(f"{'Cobertura:':<16}{turno['cobertura']}")
+    lineas.append(f"{'Total a pagar:':<16}{formatear_monto(turno['monto'])}")
+    lineas.append("=" * 50)
+
+    comprobante = "\n".join(lineas)
+    print("\n" + comprobante)
+    return comprobante
