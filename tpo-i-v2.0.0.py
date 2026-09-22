@@ -305,3 +305,16 @@ def listar_pacientes(pacientes):
     for paciente in pacientes:
         fila = f"{paciente['dni']:<10}{paciente['nombre']:<26}{paciente['edad']:<5}{paciente['mail']}"
         print(fila)
+
+
+def actualizar_paciente(pacientes, dni, nombre_nuevo=None, edad_nueva=None, mail_nuevo=None):
+    paciente = buscar_paciente_por_dni(pacientes, dni)
+    if paciente is None:
+        return False
+    if nombre_nuevo is not None:
+        paciente["nombre"] = nombre_nuevo
+    if edad_nueva is not None:
+        paciente["edad"] = edad_nueva
+    if mail_nuevo is not None:
+        paciente["mail"] = mail_nuevo
+    return True
