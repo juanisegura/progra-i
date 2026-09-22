@@ -228,3 +228,7 @@ def obtener_matriz_medico(disponibilidad, medico_id, cantidad_dias, cantidad_fra
     if medico_id not in disponibilidad:
         disponibilidad[medico_id] = inicializar_matriz_disponibilidad(cantidad_dias, cantidad_franjas)
     return disponibilidad[medico_id]
+
+
+def obtener_franjas_libres(matriz, franjas, dia_idx):
+    return [franjas[f] for f in range(len(franjas)) if matriz[dia_idx][f] == "Libre"]
