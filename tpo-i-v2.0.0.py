@@ -705,3 +705,15 @@ def guardar_medicos(medicos):
         linea = SEPARADOR_CAMPO.join([str(medico["id"]), medico["nombre"], str(medico["area_id"])])
         lineas.append(linea)
     guardar_lineas_en_archivo(ARCHIVO_MEDICOS, lineas)
+
+
+def cargar_medicos():
+    lineas = leer_lineas_archivo(ARCHIVO_MEDICOS)
+    medicos = []
+    for linea in lineas:
+        try:
+            partes = linea.split(SEPARADOR_CAMPO)
+            medicos.append({"id": int(partes[0]), "nombre": partes[1], "area_id": int(partes[2])})
+        except (ValueError, IndexError):
+            print(f"Linea invalida en {ARCHIVO_MEDICOS}, se ignora: {linea}")
+    return medicos
