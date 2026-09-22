@@ -630,6 +630,23 @@ def cancelar_turno(turnos, disponibilidad, fechas, franjas, turno_id):
     return True, "Turno cancelado."
 
 
+def eliminar_turno(turnos, disponibilidad, fechas, franjas, turno_id):
+    turno = buscar_turno_por_id(turnos, turno_id)
+    if turno is None:
+        return False, "El turno no existe."
+
+    if turno["estado"] == "reservado":
+        fecha_turno = (turno["anio"], turno["mes"], turno["dia"])
+        matriz = disponibilidad.get(turno["medico_id"])
+        if matriz is not None and fecha_turno in fechas and turno["hora"] in franjas:
+            dia_idx = fechas.index(fecha_turno)
+            franja_idx = franjas.index(turno["hora"])
+            marcar_franja(matriz, dia_idx, franja_idx, "Libre")
+
+    turnos.remove(turno)
+    return True, "Turno eliminado definitivamente."
+
+
 def reprogramar_turno(turnos, disponibilidad, fechas, franjas, weekday_hoy, turno_id):
     turno = buscar_turno_por_id(turnos, turno_id)
     if turno is None or turno["estado"] != "reservado":
