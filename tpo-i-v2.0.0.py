@@ -61,3 +61,7 @@ def pedir_texto_valido(mensaje, min_len, max_len, transformar=None):
         elif transformar == "minusculas":
             texto = texto.lower()
         return texto
+
+
+def formatear_monto(monto):
+    return f"${monto:,.0f}".replace(",", ".")
