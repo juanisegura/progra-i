@@ -71,3 +71,11 @@ def formatear_monto(monto):
 
 def es_bisiesto(anio):
     return anio % 4 == 0 and (anio % 100 != 0 or anio % 400 == 0)
+
+
+def dias_en_mes(mes, anio):
+    dias_por_mes = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+    dias = dias_por_mes[mes - 1]
+    if mes == 2 and es_bisiesto(anio):
+        dias = 29
+    return dias
