@@ -872,3 +872,49 @@ def mostrar_estadisticas(estadisticas):
     for nombre_medico, cantidad in estadisticas["por_medico"].items():
         print(f"  Dr/a. {nombre_medico}: {cantidad}")
     print("=" * 50)
+
+
+# --- Menus interactivos ------------------------------------------------
+
+def ejecutar_gestion_areas(areas, medicos):
+    continuar_submenu = True
+    while continuar_submenu:
+        print("\n--- GESTION DE AREAS ---")
+        print("1. Listar areas")
+        print("2. Crear area")
+        print("3. Agregar estudio a un area")
+        print("4. Renombrar area")
+        print("5. Eliminar area")
+        print("6. Volver al menu principal")
+        opcion = pedir_entero_valido("Elija una opcion (1-6): ", 1, 6)
+
+        match opcion:
+            case 1:
+                listar_areas(areas)
+            case 2:
+                nombre = pedir_texto_valido("Nombre de la nueva area: ", 3, 30, transformar="titulo")
+                area = crear_area(areas, nombre)
+                print(f"Area creada con id {area['id']}.")
+            case 3:
+                listar_areas(areas)
+                area_id = pedir_entero_valido("Id del area: ", 1, generar_siguiente_id(areas))
+                estudio = pedir_texto_valido("Nombre del estudio/practica: ", 3, 40, transformar="titulo")
+                if agregar_estudio_area(areas, area_id, estudio):
+                    print("Estudio agregado.")
+                else:
+                    print("No existe un area con ese id.")
+            case 4:
+                listar_areas(areas)
+                area_id = pedir_entero_valido("Id del area a renombrar: ", 1, generar_siguiente_id(areas))
+                nombre_nuevo = pedir_texto_valido("Nuevo nombre: ", 3, 30, transformar="titulo")
+                if actualizar_area(areas, area_id, nombre_nuevo):
+                    print("Area actualizada.")
+                else:
+                    print("No existe un area con ese id.")
+            case 5:
+                listar_areas(areas)
+                area_id = pedir_entero_valido("Id del area a eliminar: ", 1, generar_siguiente_id(areas))
+                ok, mensaje = eliminar_area(areas, medicos, area_id)
+                print(mensaje)
+            case 6:
+                continuar_submenu = False
