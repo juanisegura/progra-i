@@ -989,3 +989,30 @@ def ejecutar_gestion_pacientes(pacientes, turnos):
                 print(mensaje)
             case 5:
                 continuar_submenu = False
+
+
+def ejecutar_reserva_turno(pacientes, areas, medicos, turnos, disponibilidad, fechas, franjas, weekday_hoy):
+    if len(areas) == 0:
+        print("No hay areas cargadas todavia, pida a un administrador que cree al menos una.")
+        return
+
+    print("\n--- RESERVAR TURNO ---")
+    paciente = crear_paciente(pacientes)
+    area = elegir_area(areas)
+    medico = elegir_medico(medicos, areas, area["id"])
+    if medico is None:
+        print("Esta area no tiene medicos disponibles.")
+        return
+    estudio = elegir_estudio(area)
+    if estudio is None:
+        return
+    tipo = elegir_tipo_turno()
+    cobertura, monto = obra_social()
+
+    turno = crear_turno(
+        turnos, disponibilidad, fechas, franjas, weekday_hoy,
+        paciente, area, medico, estudio, tipo, cobertura, monto,
+    )
+    if turno is None:
+        return
+    generar_comprobante(paciente, area, medico, turno)
