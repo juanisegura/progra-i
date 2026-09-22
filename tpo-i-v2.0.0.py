@@ -1017,30 +1017,55 @@ def ejecutar_gestion_pacientes(pacientes, turnos):
     while continuar_submenu:
         print("\n--- GESTION DE PACIENTES ---")
         print("1. Listar pacientes")
-        print("2. Crear paciente")
-        print("3. Actualizar mail de un paciente")
-        print("4. Eliminar paciente")
-        print("5. Volver al menu principal")
-        opcion = pedir_entero_valido("Elija una opcion (1-5): ", 1, 5)
+        print("2. Buscar paciente (DNI, nombre/apellido o mail)")
+        print("3. Filtrar pacientes por edad")
+        print("4. Crear paciente")
+        print("5. Corregir nombre de un paciente")
+        print("6. Corregir DNI de un paciente")
+        print("7. Actualizar mail de un paciente")
+        print("8. Eliminar paciente")
+        print("9. Volver al menu principal")
+        opcion = pedir_entero_valido("Elija una opcion (1-9): ", 1, 9)
 
         match opcion:
             case 1:
                 listar_pacientes(pacientes)
             case 2:
+                texto = pedir_texto_valido("Ingrese DNI, nombre/apellido o mail a buscar: ", 2, 50)
+                resultados = buscar_pacientes_por_texto(pacientes, texto)
+                mostrar_pacientes_resultado(resultados, "RESULTADOS DE LA BUSQUEDA")
+            case 3:
+                edad_min = pedir_entero_valido("Edad minima: ", 0, 110)
+                edad_max = pedir_entero_valido("Edad maxima: ", edad_min, 110)
+                resultados = filtrar_pacientes_por_edad(pacientes, edad_min, edad_max)
+                mostrar_pacientes_resultado(resultados, f"PACIENTES DE {edad_min} A {edad_max} ANIOS")
+            case 4:
                 paciente = crear_paciente(pacientes)
                 print(f"Paciente {paciente['nombre']} listo (DNI {paciente['dni']}).")
-            case 3:
+            case 5:
+                dni = pedir_dni_valido("DNI del paciente: ")
+                nombre_nuevo = pedir_texto_valido("Nombre y apellido correcto: ", 5, 25, transformar="titulo")
+                if actualizar_paciente(pacientes, dni, nombre_nuevo=nombre_nuevo):
+                    print("Nombre corregido.")
+                else:
+                    print("No existe un paciente con ese DNI.")
+            case 6:
+                dni_actual = pedir_dni_valido("DNI actual del paciente: ")
+                dni_nuevo = pedir_dni_valido("DNI correcto: ")
+                ok, mensaje = corregir_dni_paciente(pacientes, turnos, dni_actual, dni_nuevo)
+                print(mensaje)
+            case 7:
                 dni = pedir_dni_valido("DNI del paciente: ")
                 mail_nuevo = pedir_texto_valido("Nuevo mail: ", 10, 200, transformar="minusculas")
                 if actualizar_paciente(pacientes, dni, mail_nuevo=mail_nuevo):
                     print("Mail actualizado.")
                 else:
                     print("No existe un paciente con ese DNI.")
-            case 4:
+            case 8:
                 dni = pedir_dni_valido("DNI del paciente a eliminar: ")
                 ok, mensaje = eliminar_paciente(pacientes, turnos, dni)
                 print(mensaje)
-            case 5:
+            case 9:
                 continuar_submenu = False
 
 
