@@ -354,3 +354,16 @@ def elegir_area(areas):
         if area is not None:
             return area
         print("Ese numero no corresponde a un area cargada, reintente.")
+
+
+def elegir_medico(medicos, areas, area_id):
+    listar_medicos(medicos, areas, area_id)
+    medicos_del_area = [m for m in medicos if m["area_id"] == area_id]
+    if len(medicos_del_area) == 0:
+        return None
+    ids_validos = [medico["id"] for medico in medicos_del_area]
+    while True:
+        medico_id = pedir_entero_valido("Elija un medico por su numero: ", min(ids_validos), max(ids_validos))
+        if medico_id in ids_validos:
+            return buscar_medico_por_id(medicos, medico_id)
+        print("Ese numero no corresponde a un medico de esta area, reintente.")
