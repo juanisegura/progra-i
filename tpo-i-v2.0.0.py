@@ -1125,19 +1125,22 @@ def ejecutar_consulta_turnos(pacientes, medicos, areas, turnos, disponibilidad, 
 
 
 def ejecutar_cancelar_o_reprogramar(turnos, pacientes, medicos, areas, disponibilidad, fechas, franjas, weekday_hoy):
-    listar_turnos(turnos, pacientes, medicos, areas, estado="reservado")
+    listar_turnos(turnos, pacientes, medicos, areas)
     if len(turnos) == 0:
         return
 
-    print("\n1. Cancelar un turno")
+    print("\n1. Cancelar un turno (baja logica, queda en el historial)")
     print("2. Reprogramar un turno")
-    opcion = pedir_entero_valido("Elija una opcion (1-2): ", 1, 2)
+    print("3. Eliminar un turno (borra el registro definitivamente)")
+    opcion = pedir_entero_valido("Elija una opcion (1-3): ", 1, 3)
     turno_id = pedir_entero_valido("Numero de turno (#): ", 1, generar_siguiente_id(turnos))
 
     if opcion == 1:
         ok, mensaje = cancelar_turno(turnos, disponibilidad, fechas, franjas, turno_id)
-    else:
+    elif opcion == 2:
         ok, mensaje = reprogramar_turno(turnos, disponibilidad, fechas, franjas, weekday_hoy, turno_id)
+    else:
+        ok, mensaje = eliminar_turno(turnos, disponibilidad, fechas, franjas, turno_id)
     print(mensaje)
 
 
