@@ -379,3 +379,11 @@ def elegir_estudio(area):
         print(f"{i + 1}. {estudios[i]}")
     opcion = pedir_entero_valido(f"Elija un estudio (1-{len(estudios)}): ", 1, len(estudios))
     return estudios[opcion - 1]
+
+
+def elegir_tipo_turno():
+    print("\n--- TIPO DE TURNO ---")
+    print("1. Turno futuro (elige fecha)")
+    print("2. Urgencia (primer horario libre disponible)")
+    opcion = pedir_entero_valido("Elija una opcion (1-2): ", 1, 2)
+    return "futuro" if opcion == 1 else "urgencia"
