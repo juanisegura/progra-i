@@ -124,3 +124,11 @@ def generar_siguiente_id(lista):
         return 1
     ids = [elemento["id"] for elemento in lista]
     return max(ids) + 1
+
+
+# --- CRUD Areas (Diccionarios) --------------------------------------------
+
+def crear_area(areas, nombre):
+    area = {"id": generar_siguiente_id(areas), "nombre": nombre}
+    areas.append(area)
+    return area
