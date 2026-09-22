@@ -530,3 +530,7 @@ def listar_turnos(turnos, pacientes, medicos, areas, medico_id=None, area_id=Non
             f"{nombre_paciente:<22}Dr/a. {nombre_medico:<18}{nombre_area:<14}{turno['estado']}"
         )
         print(fila)
+
+
+def buscar_turnos_de_paciente(turnos, dni):
+    return [turno for turno in turnos if turno["paciente_dni"] == dni]
