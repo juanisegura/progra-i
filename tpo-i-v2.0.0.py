@@ -433,3 +433,22 @@ def elegir_franja(matriz, franjas, dia_idx, nombre_dia, fecha_texto):
     while hora_elegida not in franjas_libres:
         hora_elegida = input("Horario invalido u ocupado. Reingrese: ").strip()
     return franjas.index(hora_elegida)
+
+
+def obra_social():
+    precio_particular = 15000
+    plus_coseguro = 3500
+
+    respuesta = input("\n¿Posee Obra Social o Prepaga? (si/no): ").lower().strip()
+    while respuesta != "si" and respuesta != "no":
+        respuesta = input("Respuesta invalida. Ingrese 'si' o 'no': ").lower().strip()
+
+    match respuesta:
+        case "si":
+            nombre_os = input("Ingrese el nombre de su Obra Social/Prepaga (ej. OSDE, Swiss Medical): ").strip().upper()
+            monto_final = plus_coseguro
+        case "no":
+            nombre_os = "Particular (Sin Obra Social)"
+            monto_final = precio_particular
+
+    return nombre_os, monto_final
