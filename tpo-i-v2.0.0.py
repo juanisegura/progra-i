@@ -1016,3 +1016,25 @@ def ejecutar_reserva_turno(pacientes, areas, medicos, turnos, disponibilidad, fe
     if turno is None:
         return
     generar_comprobante(paciente, area, medico, turno)
+
+
+def ejecutar_consulta_turnos(pacientes, medicos, areas, turnos, disponibilidad, fechas, franjas, weekday_hoy):
+    continuar_submenu = True
+    while continuar_submenu:
+        print("\n--- CONSULTAR TURNOS ---")
+        print("1. Ver horarios disponibles de un medico")
+        print("2. Ver turnos de un paciente (por DNI)")
+        print("3. Listar todos los turnos")
+        print("4. Volver al menu principal")
+        opcion = pedir_entero_valido("Elija una opcion (1-4): ", 1, 4)
+
+        match opcion:
+            case 1:
+                consultar_turnos_disponibles(areas, medicos, disponibilidad, fechas, franjas, weekday_hoy)
+            case 2:
+                dni = pedir_dni_valido("DNI del paciente: ")
+                mostrar_turnos_de_paciente(turnos, pacientes, medicos, areas, dni)
+            case 3:
+                listar_turnos(turnos, pacientes, medicos, areas)
+            case 4:
+                continuar_submenu = False
