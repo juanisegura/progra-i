@@ -351,6 +351,14 @@ def buscar_pacientes_por_texto(pacientes, texto):
     ]
 
 
+def mostrar_pacientes_resultado(pacientes_filtrados, titulo):
+    print(f"\n--- {titulo} ({len(pacientes_filtrados)}) ---")
+    if len(pacientes_filtrados) == 0:
+        print("No se encontraron pacientes para este criterio.")
+    for p in pacientes_filtrados:
+        print(f"{p['dni']:<10}{p['nombre']:<26}{p['edad']:<5}{p['mail']}")
+
+
 # --- Seleccion interactiva para reservar un turno -------------------------
 
 def elegir_area(areas):
