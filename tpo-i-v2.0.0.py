@@ -534,3 +534,24 @@ def listar_turnos(turnos, pacientes, medicos, areas, medico_id=None, area_id=Non
 
 def buscar_turnos_de_paciente(turnos, dni):
     return [turno for turno in turnos if turno["paciente_dni"] == dni]
+
+
+def mostrar_turnos_de_paciente(turnos, pacientes, medicos, areas, dni):
+    paciente = buscar_paciente_por_dni(pacientes, dni)
+    if paciente is None:
+        print("No existe un paciente registrado con ese DNI.")
+        return
+    turnos_paciente = buscar_turnos_de_paciente(turnos, dni)
+    print(f"\n--- TURNOS DE {paciente['nombre']} ({len(turnos_paciente)}) ---")
+    if len(turnos_paciente) == 0:
+        print("Este paciente no tiene turnos registrados.")
+    for turno in turnos_paciente:
+        medico = buscar_medico_por_id(medicos, turno["medico_id"])
+        area = buscar_area_por_id(areas, turno["area_id"])
+        nombre_medico = medico["nombre"] if medico is not None else "Medico eliminado"
+        nombre_area = area["nombre"] if area is not None else "Area eliminada"
+        fecha_texto = f"{turno['dia']:02d}/{turno['mes']:02d}/{turno['anio']}"
+        print(
+            f"#{turno['id']} - {fecha_texto} {turno['hora']} - Dr/a. {nombre_medico} "
+            f"({nombre_area}) - {turno['estudio']} - {turno['tipo']} - {turno['estado']}"
+        )
