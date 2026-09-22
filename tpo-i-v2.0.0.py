@@ -1078,3 +1078,17 @@ def seed_datos_iniciales(areas, medicos):
         area = crear_area(areas, nombre_area, estudios)
         for nombre_medico in nombres_medicos:
             crear_medico(medicos, nombre_medico, area["id"])
+
+
+def mostrar_menu_principal():
+    print("\n" + "=" * 50)
+    print(f"  {SANATORIO_NOMBRE.upper()} - MENU PRINCIPAL")
+    print("=" * 50)
+    print("1. Reservar turno")
+    print("2. Consultar turnos")
+    print("3. Cancelar o reprogramar un turno")
+    print("4. Gestionar pacientes")
+    print("5. Gestionar medicos")
+    print("6. Gestionar areas")
+    print("7. Ver estadisticas")
+    print("8. Guardar y salir")
