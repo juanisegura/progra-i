@@ -456,7 +456,7 @@ def obra_social():
 
 # --- CRUD Turnos (nucleo del sistema) --------------------------------------
 
-def crear_turno(turnos, disponibilidad, fechas, franjas, weekday_hoy, paciente, area, medico, estudio, tipo, cobertura, monto):
+def crear_turno(turnos, disponibilidad, fechas, franjas, weekday_hoy, paciente, area, medico, estudio, tipo):
     cantidad_dias = len(fechas)
     cantidad_franjas = len(franjas)
     matriz = obtener_matriz_medico(disponibilidad, medico["id"], cantidad_dias, cantidad_franjas)
@@ -493,8 +493,8 @@ def crear_turno(turnos, disponibilidad, fechas, franjas, weekday_hoy, paciente, 
         "hora": franjas[franja_idx],
         "tipo": tipo,
         "estado": "reservado",
-        "cobertura": cobertura,
-        "monto": monto,
+        "cobertura": None,
+        "monto": None,
     }
     turnos.append(turno)
     return turno
@@ -762,7 +762,7 @@ def guardar_turnos(turnos):
             turno["tipo"],
             turno["estado"],
             turno["cobertura"],
-            str(turno["monto"]),
+            str(int(turno["monto"])),
         ])
         lineas.append(linea)
     guardar_lineas_en_archivo(ARCHIVO_TURNOS, lineas)
@@ -787,7 +787,7 @@ def cargar_turnos():
                 "tipo": partes[9],
                 "estado": partes[10],
                 "cobertura": partes[11],
-                "monto": float(partes[12]),
+                "monto": int(partes[12]),
             })
         except (ValueError, IndexError):
             print(f"Linea invalida en {ARCHIVO_TURNOS}, se ignora: {linea}")
@@ -1007,14 +1007,17 @@ def ejecutar_reserva_turno(pacientes, areas, medicos, turnos, disponibilidad, fe
     if estudio is None:
         return
     tipo = elegir_tipo_turno()
-    cobertura, monto = obra_social()
 
     turno = crear_turno(
         turnos, disponibilidad, fechas, franjas, weekday_hoy,
-        paciente, area, medico, estudio, tipo, cobertura, monto,
+        paciente, area, medico, estudio, tipo,
     )
     if turno is None:
         return
+
+    cobertura, monto = obra_social()
+    turno["cobertura"] = cobertura
+    turno["monto"] = monto
     generar_comprobante(paciente, area, medico, turno)
 
 
