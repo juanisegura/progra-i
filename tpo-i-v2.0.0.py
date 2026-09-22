@@ -664,3 +664,12 @@ def guardar_lineas_en_archivo(nombre_archivo, lineas):
     finally:
         if archivo is not None:
             archivo.close()
+
+
+def leer_lineas_archivo(nombre_archivo):
+    try:
+        with open(nombre_archivo, "r", encoding="utf-8") as archivo:
+            lineas = [linea.rstrip("\n") for linea in archivo]
+    except FileNotFoundError:
+        lineas = []
+    return lineas
