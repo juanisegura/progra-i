@@ -807,3 +807,11 @@ def reconstruir_disponibilidad(turnos, fechas, franjas):
         franja_idx = franjas.index(turno["hora"])
         marcar_franja(matriz, dia_idx, franja_idx, "Ocupado")
     return disponibilidad
+
+
+def guardar_datos(areas, medicos, pacientes, turnos):
+    guardar_areas(areas)
+    guardar_medicos(medicos)
+    guardar_pacientes(pacientes)
+    guardar_turnos(turnos)
+    print("\nDatos guardados en areas.txt, medicos.txt, pacientes.txt y turnos.txt.")
