@@ -792,3 +792,18 @@ def cargar_turnos():
         except (ValueError, IndexError):
             print(f"Linea invalida en {ARCHIVO_TURNOS}, se ignora: {linea}")
     return turnos
+
+
+def reconstruir_disponibilidad(turnos, fechas, franjas):
+    disponibilidad = {}
+    for turno in turnos:
+        if turno["estado"] != "reservado":
+            continue
+        fecha_turno = (turno["anio"], turno["mes"], turno["dia"])
+        if fecha_turno not in fechas or turno["hora"] not in franjas:
+            continue
+        matriz = obtener_matriz_medico(disponibilidad, turno["medico_id"], len(fechas), len(franjas))
+        dia_idx = fechas.index(fecha_turno)
+        franja_idx = franjas.index(turno["hora"])
+        marcar_franja(matriz, dia_idx, franja_idx, "Ocupado")
+    return disponibilidad
