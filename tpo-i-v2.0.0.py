@@ -717,3 +717,13 @@ def cargar_medicos():
         except (ValueError, IndexError):
             print(f"Linea invalida en {ARCHIVO_MEDICOS}, se ignora: {linea}")
     return medicos
+
+
+def guardar_pacientes(pacientes):
+    lineas = []
+    for paciente in pacientes:
+        linea = SEPARADOR_CAMPO.join(
+            [paciente["dni"], paciente["nombre"], str(paciente["edad"]), paciente["mail"]]
+        )
+        lineas.append(linea)
+    guardar_lineas_en_archivo(ARCHIVO_PACIENTES, lineas)
