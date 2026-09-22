@@ -279,3 +279,20 @@ def buscar_paciente_por_dni(pacientes, dni, indice=0):
     if pacientes[indice]["dni"] == dni:
         return pacientes[indice]
     return buscar_paciente_por_dni(pacientes, dni, indice + 1)
+
+
+def crear_paciente(pacientes):
+    print("\n--- DATOS DEL PACIENTE ---")
+    dni = pedir_dni_valido("Ingrese el DNI del paciente: ")
+    paciente_existente = buscar_paciente_por_dni(pacientes, dni)
+    if paciente_existente is not None:
+        print(f"El paciente {paciente_existente['nombre']} ya esta registrado, se reutilizan sus datos.")
+        return paciente_existente
+
+    nombre = pedir_texto_valido("Ingrese el nombre y apellido: ", 5, 25, transformar="titulo")
+    edad = pedir_entero_valido("Ingrese la edad: ", 0, 110)
+    mail = pedir_texto_valido("Ingrese un mail de confirmacion: ", 10, 200, transformar="minusculas")
+
+    paciente = {"dni": dni, "nombre": nombre, "edad": edad, "mail": mail}
+    pacientes.append(paciente)
+    return paciente
