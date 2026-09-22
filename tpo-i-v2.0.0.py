@@ -128,8 +128,8 @@ def generar_siguiente_id(lista):
 
 # --- CRUD Areas (Diccionarios) --------------------------------------------
 
-def crear_area(areas, nombre):
-    area = {"id": generar_siguiente_id(areas), "nombre": nombre}
+def crear_area(areas, nombre, estudios=None):
+    area = {"id": generar_siguiente_id(areas), "nombre": nombre, "estudios": estudios or []}
     areas.append(area)
     return area
 
