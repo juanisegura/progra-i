@@ -99,3 +99,19 @@ def generar_proximos_dias(fecha_inicio, cantidad):
 def nombre_dia_semana(weekday_hoy, offset_desde_hoy):
     indice = (weekday_hoy + offset_desde_hoy) % 7
     return NOMBRES_DIAS_SEMANA[indice]
+
+
+def generar_franjas_horarias(hora_inicio, hora_fin, paso_minutos):
+    hora_i, min_i = hora_inicio.split(":")
+    hora_f, min_f = hora_fin.split(":")
+    minutos_inicio = int(hora_i) * 60 + int(min_i)
+    minutos_fin = int(hora_f) * 60 + int(min_f)
+
+    franjas = []
+    minuto_actual = minutos_inicio
+    while minuto_actual < minutos_fin:
+        h = minuto_actual // 60
+        m = minuto_actual % 60
+        franjas.append(f"{h:02d}:{m:02d}")
+        minuto_actual += paso_minutos
+    return franjas
