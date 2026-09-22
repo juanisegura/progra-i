@@ -555,3 +555,22 @@ def mostrar_turnos_de_paciente(turnos, pacientes, medicos, areas, dni):
             f"#{turno['id']} - {fecha_texto} {turno['hora']} - Dr/a. {nombre_medico} "
             f"({nombre_area}) - {turno['estudio']} - {turno['tipo']} - {turno['estado']}"
         )
+
+
+def consultar_turnos_disponibles(areas, medicos, disponibilidad, fechas, franjas, weekday_hoy):
+    if len(areas) == 0:
+        print("No hay areas cargadas todavia.")
+        return
+    area = elegir_area(areas)
+    medico = elegir_medico(medicos, areas, area["id"])
+    if medico is None:
+        print("Esta area no tiene medicos cargados.")
+        return
+    matriz = obtener_matriz_medico(disponibilidad, medico["id"], len(fechas), len(franjas))
+    anio_mes_elegido = elegir_mes(fechas)
+    dia_idx = elegir_dia_del_mes(fechas, weekday_hoy, anio_mes_elegido)
+    anio, mes, dia = fechas[dia_idx]
+    nombre_dia = nombre_dia_semana(weekday_hoy, dia_idx)
+    fecha_texto = f"{dia:02d}/{mes:02d}/{anio}"
+    franjas_libres = obtener_franjas_libres(matriz, franjas, dia_idx)
+    mostrar_franjas_libres(nombre_dia, fecha_texto, franjas_libres)
