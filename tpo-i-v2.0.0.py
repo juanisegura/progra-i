@@ -216,3 +216,9 @@ def eliminar_medico(medicos, turnos, medico_id):
         return False, "No se puede eliminar: el medico tiene turnos reservados."
     medicos.remove(medico)
     return True, "Medico eliminado."
+
+
+# --- Disponibilidad por medico (Matrices) ---------------------------------
+
+def inicializar_matriz_disponibilidad(cantidad_dias, cantidad_franjas):
+    return [["Libre" for _ in range(cantidad_franjas)] for _ in range(cantidad_dias)]
