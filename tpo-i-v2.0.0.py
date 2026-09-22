@@ -1055,3 +1055,26 @@ def ejecutar_cancelar_o_reprogramar(turnos, pacientes, medicos, areas, disponibi
     else:
         ok, mensaje = reprogramar_turno(turnos, disponibilidad, fechas, franjas, weekday_hoy, turno_id)
     print(mensaje)
+
+
+def seed_datos_iniciales(areas, medicos):
+    if len(areas) > 0:
+        return
+    catalogo = [
+        ("Cardiologia", ["Consulta - Control", "Electrocardiograma", "Ecocardiograma"],
+         ["Julian Perez", "Marina Sosa"]),
+        ("Traumatologia", ["Consulta", "Radiografia", "Infiltracion"],
+         ["Ezequiel Lima"]),
+        ("Pediatria", ["Consulta - Control", "Apto fisico escolar", "Vacunacion de calendario"],
+         ["Carla Nunez", "Tomas Ferro"]),
+        ("Dermatologia", ["Consulta - Control", "Biopsia de piel", "Crioterapia"],
+         ["Ines Roldan"]),
+        ("Clinica Medica", ["Consulta general", "Control de rutina", "Certificado medico"],
+         ["Pablo Ortega", "Natalia Vega"]),
+        ("Oftalmologia", ["Consulta", "Control de fondo de ojo", "Test de agudeza visual"],
+         ["Ramiro Diaz"]),
+    ]
+    for nombre_area, estudios, nombres_medicos in catalogo:
+        area = crear_area(areas, nombre_area, estudios)
+        for nombre_medico in nombres_medicos:
+            crear_medico(medicos, nombre_medico, area["id"])
