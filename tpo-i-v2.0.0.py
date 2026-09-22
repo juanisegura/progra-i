@@ -166,3 +166,11 @@ def eliminar_area(areas, medicos, area_id):
         return False, "No se puede eliminar: hay medicos asignados a esta area."
     areas.remove(area)
     return True, "Area eliminada."
+
+
+# --- CRUD Medicos (Diccionarios) ------------------------------------------
+
+def crear_medico(medicos, nombre, area_id):
+    medico = {"id": generar_siguiente_id(medicos), "nombre": nombre, "area_id": area_id}
+    medicos.append(medico)
+    return medico
