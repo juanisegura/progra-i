@@ -181,3 +181,14 @@ def buscar_medico_por_id(medicos, medico_id):
         if medico["id"] == medico_id:
             return medico
     return None
+
+
+def listar_medicos(medicos, areas, area_id=None):
+    medicos_a_mostrar = [m for m in medicos if area_id is None or m["area_id"] == area_id]
+    print(f"\n--- MEDICOS ({len(medicos_a_mostrar)}) ---")
+    if len(medicos_a_mostrar) == 0:
+        print("No hay medicos cargados para este filtro.")
+    for medico in medicos_a_mostrar:
+        area = buscar_area_por_id(areas, medico["area_id"])
+        nombre_area = area["nombre"] if area is not None else "Area eliminada"
+        print(f"{medico['id']}. Dr/a. {medico['nombre']} - {nombre_area}")
