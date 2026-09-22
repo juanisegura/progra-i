@@ -592,3 +592,32 @@ def cancelar_turno(turnos, disponibilidad, fechas, franjas, turno_id):
 
     turno["estado"] = "cancelado"
     return True, "Turno cancelado."
+
+
+def reprogramar_turno(turnos, disponibilidad, fechas, franjas, weekday_hoy, turno_id):
+    turno = buscar_turno_por_id(turnos, turno_id)
+    if turno is None or turno["estado"] != "reservado":
+        return False, "El turno no existe o no esta activo."
+
+    medico_id = turno["medico_id"]
+    matriz = obtener_matriz_medico(disponibilidad, medico_id, len(fechas), len(franjas))
+
+    dia_idx_viejo = fechas.index((turno["anio"], turno["mes"], turno["dia"]))
+    franja_idx_viejo = franjas.index(turno["hora"])
+    marcar_franja(matriz, dia_idx_viejo, franja_idx_viejo, "Libre")
+
+    anio_mes_elegido = elegir_mes(fechas)
+    dia_idx_nuevo = elegir_dia_del_mes(fechas, weekday_hoy, anio_mes_elegido)
+    anio, mes, dia = fechas[dia_idx_nuevo]
+    nombre_dia = nombre_dia_semana(weekday_hoy, dia_idx_nuevo)
+    fecha_texto = f"{dia:02d}/{mes:02d}/{anio}"
+    franja_idx_nuevo = elegir_franja(matriz, franjas, dia_idx_nuevo, nombre_dia, fecha_texto)
+
+    if franja_idx_nuevo is None:
+        marcar_franja(matriz, dia_idx_viejo, franja_idx_viejo, "Ocupado")
+        return False, "No se pudo reprogramar: no hay horarios libres ese dia."
+
+    marcar_franja(matriz, dia_idx_nuevo, franja_idx_nuevo, "Ocupado")
+    turno["anio"], turno["mes"], turno["dia"] = anio, mes, dia
+    turno["hora"] = franjas[franja_idx_nuevo]
+    return True, "Turno reprogramado."
