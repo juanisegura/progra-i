@@ -697,3 +697,11 @@ def cargar_areas():
         except (ValueError, IndexError):
             print(f"Linea invalida en {ARCHIVO_AREAS}, se ignora: {linea}")
     return areas
+
+
+def guardar_medicos(medicos):
+    lineas = []
+    for medico in medicos:
+        linea = SEPARADOR_CAMPO.join([str(medico["id"]), medico["nombre"], str(medico["area_id"])])
+        lineas.append(linea)
+    guardar_lineas_en_archivo(ARCHIVO_MEDICOS, lineas)
