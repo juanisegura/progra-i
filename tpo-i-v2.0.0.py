@@ -1092,3 +1092,44 @@ def mostrar_menu_principal():
     print("6. Gestionar areas")
     print("7. Ver estadisticas")
     print("8. Guardar y salir")
+
+
+# --- Programa principal ------------------------------------------------
+
+print(f"¡Hola! Bienvenido a la sucursal virtual de {SANATORIO_NOMBRE}")
+
+areas, medicos, pacientes, turnos = cargar_datos()
+seed_datos_iniciales(areas, medicos)
+
+hoy = date.today()
+weekday_hoy = hoy.weekday()
+fechas = generar_proximos_dias((hoy.year, hoy.month, hoy.day), HORIZONTE_DIAS)
+franjas = generar_franjas_horarias(HORA_APERTURA, HORA_CIERRE, PASO_MINUTOS)
+disponibilidad = reconstruir_disponibilidad(turnos, fechas, franjas)
+
+continuar = True
+while continuar:
+    mostrar_menu_principal()
+    opcion = pedir_entero_valido("Elija una opcion (1-8): ", 1, 8)
+
+    match opcion:
+        case 1:
+            ejecutar_reserva_turno(pacientes, areas, medicos, turnos, disponibilidad, fechas, franjas, weekday_hoy)
+        case 2:
+            ejecutar_consulta_turnos(pacientes, medicos, areas, turnos, disponibilidad, fechas, franjas, weekday_hoy)
+        case 3:
+            ejecutar_cancelar_o_reprogramar(turnos, pacientes, medicos, areas, disponibilidad, fechas, franjas, weekday_hoy)
+        case 4:
+            ejecutar_gestion_pacientes(pacientes, turnos)
+        case 5:
+            ejecutar_gestion_medicos(medicos, areas, turnos)
+        case 6:
+            ejecutar_gestion_areas(areas, medicos)
+        case 7:
+            estadisticas = calcular_estadisticas(turnos, medicos, areas)
+            mostrar_estadisticas(estadisticas)
+        case 8:
+            guardar_datos(areas, medicos, pacientes, turnos)
+            continuar = False
+
+print("\n¡Gracias por usar el sistema! Hasta la proxima.")
