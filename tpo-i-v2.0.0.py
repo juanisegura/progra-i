@@ -682,3 +682,18 @@ def guardar_areas(areas):
         linea = SEPARADOR_CAMPO.join([str(area["id"]), area["nombre"], estudios_texto])
         lineas.append(linea)
     guardar_lineas_en_archivo(ARCHIVO_AREAS, lineas)
+
+
+def cargar_areas():
+    lineas = leer_lineas_archivo(ARCHIVO_AREAS)
+    areas = []
+    for linea in lineas:
+        try:
+            partes = linea.split(SEPARADOR_CAMPO)
+            area_id = int(partes[0])
+            nombre = partes[1]
+            estudios = partes[2].split(",") if partes[2] != "" else []
+            areas.append({"id": area_id, "nombre": nombre, "estudios": estudios})
+        except (ValueError, IndexError):
+            print(f"Linea invalida en {ARCHIVO_AREAS}, se ignora: {linea}")
+    return areas
