@@ -387,3 +387,13 @@ def elegir_tipo_turno():
     print("2. Urgencia (primer horario libre disponible)")
     opcion = pedir_entero_valido("Elija una opcion (1-2): ", 1, 2)
     return "futuro" if opcion == 1 else "urgencia"
+
+
+def obtener_meses_disponibles(fechas):
+    meses = []
+    for fecha in fechas:
+        anio, mes, _ = fecha
+        clave = (anio, mes)
+        if clave not in meses:
+            meses.append(clave)
+    return meses
