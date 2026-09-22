@@ -222,3 +222,9 @@ def eliminar_medico(medicos, turnos, medico_id):
 
 def inicializar_matriz_disponibilidad(cantidad_dias, cantidad_franjas):
     return [["Libre" for _ in range(cantidad_franjas)] for _ in range(cantidad_dias)]
+
+
+def obtener_matriz_medico(disponibilidad, medico_id, cantidad_dias, cantidad_franjas):
+    if medico_id not in disponibilidad:
+        disponibilidad[medico_id] = inicializar_matriz_disponibilidad(cantidad_dias, cantidad_franjas)
+    return disponibilidad[medico_id]
