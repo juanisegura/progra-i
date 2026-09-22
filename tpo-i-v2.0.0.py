@@ -397,3 +397,13 @@ def obtener_meses_disponibles(fechas):
         if clave not in meses:
             meses.append(clave)
     return meses
+
+
+def elegir_mes(fechas):
+    meses = obtener_meses_disponibles(fechas)
+    print("\n--- MESES DISPONIBLES ---")
+    for i in range(len(meses)):
+        anio, mes = meses[i]
+        print(f"{i + 1}. {NOMBRES_MESES[mes - 1]} {anio}")
+    opcion = pedir_entero_valido(f"Elija un mes (1-{len(meses)}): ", 1, len(meses))
+    return meses[opcion - 1]
