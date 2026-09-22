@@ -1,2 +1,8 @@
 __pycache__/
 *.pyc
+
+# Datos de runtime del sistema de turnos (se regeneran solos via seed_datos_iniciales)
+areas.txt
+medicos.txt
+pacientes.txt
+turnos.txt
