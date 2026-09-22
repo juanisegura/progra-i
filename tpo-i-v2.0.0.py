@@ -271,3 +271,11 @@ def pedir_dni_valido(mensaje):
             print(f"Dato invalido: {error}")
         else:
             return dni
+
+
+def buscar_paciente_por_dni(pacientes, dni, indice=0):
+    if indice >= len(pacientes):
+        return None
+    if pacientes[indice]["dni"] == dni:
+        return pacientes[indice]
+    return buscar_paciente_por_dni(pacientes, dni, indice + 1)
