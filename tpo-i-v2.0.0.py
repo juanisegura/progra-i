@@ -744,3 +744,25 @@ def cargar_pacientes():
         except (ValueError, IndexError):
             print(f"Linea invalida en {ARCHIVO_PACIENTES}, se ignora: {linea}")
     return pacientes
+
+
+def guardar_turnos(turnos):
+    lineas = []
+    for turno in turnos:
+        linea = SEPARADOR_CAMPO.join([
+            str(turno["id"]),
+            turno["paciente_dni"],
+            str(turno["medico_id"]),
+            str(turno["area_id"]),
+            turno["estudio"],
+            str(turno["anio"]),
+            str(turno["mes"]),
+            str(turno["dia"]),
+            turno["hora"],
+            turno["tipo"],
+            turno["estado"],
+            turno["cobertura"],
+            str(turno["monto"]),
+        ])
+        lineas.append(linea)
+    guardar_lineas_en_archivo(ARCHIVO_TURNOS, lineas)
