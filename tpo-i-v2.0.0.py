@@ -848,3 +848,27 @@ def calcular_estadisticas(turnos, medicos, areas):
         "por_area": por_area,
         "por_medico": por_medico,
     }
+
+
+def mostrar_estadisticas(estadisticas):
+    print("\n" + "=" * 50)
+    print("ESTADISTICAS DEL SANATORIO")
+    print("=" * 50)
+    print(f"Total de turnos registrados: {estadisticas['total']}")
+    print(f"  Reservados: {estadisticas['reservados']}")
+    print(f"  Cancelados: {estadisticas['cancelados']}")
+    print(f"  Urgencias: {estadisticas['urgencias']}")
+    print(f"  Futuros: {estadisticas['futuros']}")
+
+    print("\nTurnos por area:")
+    if len(estadisticas["por_area"]) == 0:
+        print("  (sin datos)")
+    for nombre_area, cantidad in estadisticas["por_area"].items():
+        print(f"  {nombre_area}: {cantidad}")
+
+    print("\nTurnos por medico:")
+    if len(estadisticas["por_medico"]) == 0:
+        print("  (sin datos)")
+    for nombre_medico, cantidad in estadisticas["por_medico"].items():
+        print(f"  Dr/a. {nombre_medico}: {cantidad}")
+    print("=" * 50)
