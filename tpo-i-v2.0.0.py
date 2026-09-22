@@ -710,7 +710,7 @@ def guardar_json(nombre_archivo, datos):
     try:
         arch = open(nombre_archivo, "wt", encoding="utf-8")
         json.dump(datos, arch)
-    except OSError as error:
+    except (FileNotFoundError, OSError) as error:
         print(f"No se pudo guardar {nombre_archivo}: {error}")
     finally:
         try:
