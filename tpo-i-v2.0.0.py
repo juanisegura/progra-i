@@ -31,3 +31,18 @@ ARCHIVO_PACIENTES = "pacientes.txt"
 ARCHIVO_TURNOS = "turnos.txt"
 
 SEPARADOR_CAMPO = "|"
+
+
+# --- Utilidades de entrada/validacion (Cadenas + Excepciones) -----------
+
+def pedir_entero_valido(mensaje, minimo, maximo):
+    while True:
+        entrada = input(mensaje).strip()
+        try:
+            valor = int(entrada)
+            if valor < minimo or valor > maximo:
+                raise ValueError("fuera de rango")
+        except ValueError:
+            print(f"Dato invalido. Ingrese un numero entero entre {minimo} y {maximo}.")
+        else:
+            return valor
