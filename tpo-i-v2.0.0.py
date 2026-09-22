@@ -192,3 +192,14 @@ def listar_medicos(medicos, areas, area_id=None):
         area = buscar_area_por_id(areas, medico["area_id"])
         nombre_area = area["nombre"] if area is not None else "Area eliminada"
         print(f"{medico['id']}. Dr/a. {medico['nombre']} - {nombre_area}")
+
+
+def actualizar_medico(medicos, medico_id, nombre_nuevo=None, area_id_nuevo=None):
+    medico = buscar_medico_por_id(medicos, medico_id)
+    if medico is None:
+        return False
+    if nombre_nuevo is not None:
+        medico["nombre"] = nombre_nuevo
+    if area_id_nuevo is not None:
+        medico["area_id"] = area_id_nuevo
+    return True
