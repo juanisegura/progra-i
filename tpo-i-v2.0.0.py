@@ -341,6 +341,16 @@ def eliminar_paciente(pacientes, turnos, dni):
     return True, "Paciente eliminado."
 
 
+def buscar_pacientes_por_texto(pacientes, texto):
+    consulta = texto.strip().lower()
+    return [
+        p for p in pacientes
+        if consulta in p["dni"].lower()
+        or consulta in p["nombre"].lower()
+        or consulta in p["mail"].lower()
+    ]
+
+
 # --- Seleccion interactiva para reservar un turno -------------------------
 
 def elegir_area(areas):
