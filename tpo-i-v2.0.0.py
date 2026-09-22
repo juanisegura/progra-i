@@ -139,3 +139,11 @@ def buscar_area_por_id(areas, area_id):
         if area["id"] == area_id:
             return area
     return None
+
+
+def listar_areas(areas):
+    print(f"\n--- AREAS ({len(areas)}) ---")
+    if len(areas) == 0:
+        print("No hay areas cargadas.")
+    for area in areas:
+        print(f"{area['id']}. {area['nombre']}")
