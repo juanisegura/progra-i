@@ -147,3 +147,11 @@ def listar_areas(areas):
         print("No hay areas cargadas.")
     for area in areas:
         print(f"{area['id']}. {area['nombre']}")
+
+
+def actualizar_area(areas, area_id, nombre_nuevo):
+    area = buscar_area_por_id(areas, area_id)
+    if area is None:
+        return False
+    area["nombre"] = nombre_nuevo
+    return True
