@@ -155,3 +155,14 @@ def actualizar_area(areas, area_id, nombre_nuevo):
         return False
     area["nombre"] = nombre_nuevo
     return True
+
+
+def eliminar_area(areas, medicos, area_id):
+    area = buscar_area_por_id(areas, area_id)
+    if area is None:
+        return False, "El area no existe."
+    tiene_medicos = any(medico["area_id"] == area_id for medico in medicos)
+    if tiene_medicos:
+        return False, "No se puede eliminar: hay medicos asignados a esta area."
+    areas.remove(area)
+    return True, "Area eliminada."
