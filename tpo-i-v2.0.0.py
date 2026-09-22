@@ -241,3 +241,7 @@ def mostrar_franjas_libres(nombre_dia, fecha_texto, franjas_libres):
     else:
         for franja in franjas_libres:
             print(f"- {franja}")
+
+
+def marcar_franja(matriz, dia_idx, franja_idx, estado):
+    matriz[dia_idx][franja_idx] = estado
