@@ -815,3 +815,11 @@ def guardar_datos(areas, medicos, pacientes, turnos):
     guardar_pacientes(pacientes)
     guardar_turnos(turnos)
     print("\nDatos guardados en areas.txt, medicos.txt, pacientes.txt y turnos.txt.")
+
+
+def cargar_datos():
+    areas = cargar_areas()
+    medicos = cargar_medicos()
+    pacientes = cargar_pacientes()
+    turnos = cargar_turnos()
+    return areas, medicos, pacientes, turnos
