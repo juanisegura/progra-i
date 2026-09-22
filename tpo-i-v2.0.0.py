@@ -367,3 +367,15 @@ def elegir_medico(medicos, areas, area_id):
         if medico_id in ids_validos:
             return buscar_medico_por_id(medicos, medico_id)
         print("Ese numero no corresponde a un medico de esta area, reintente.")
+
+
+def elegir_estudio(area):
+    estudios = area["estudios"]
+    print(f"\n--- ESTUDIOS DISPONIBLES EN {area['nombre']} ---")
+    if len(estudios) == 0:
+        print("Esta area no tiene estudios cargados.")
+        return None
+    for i in range(len(estudios)):
+        print(f"{i + 1}. {estudios[i]}")
+    opcion = pedir_entero_valido(f"Elija un estudio (1-{len(estudios)}): ", 1, len(estudios))
+    return estudios[opcion - 1]
