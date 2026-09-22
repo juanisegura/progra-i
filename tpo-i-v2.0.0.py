@@ -1038,3 +1038,20 @@ def ejecutar_consulta_turnos(pacientes, medicos, areas, turnos, disponibilidad, 
                 listar_turnos(turnos, pacientes, medicos, areas)
             case 4:
                 continuar_submenu = False
+
+
+def ejecutar_cancelar_o_reprogramar(turnos, pacientes, medicos, areas, disponibilidad, fechas, franjas, weekday_hoy):
+    listar_turnos(turnos, pacientes, medicos, areas, estado="reservado")
+    if len(turnos) == 0:
+        return
+
+    print("\n1. Cancelar un turno")
+    print("2. Reprogramar un turno")
+    opcion = pedir_entero_valido("Elija una opcion (1-2): ", 1, 2)
+    turno_id = pedir_entero_valido("Numero de turno (#): ", 1, generar_siguiente_id(turnos))
+
+    if opcion == 1:
+        ok, mensaje = cancelar_turno(turnos, disponibilidad, fechas, franjas, turno_id)
+    else:
+        ok, mensaje = reprogramar_turno(turnos, disponibilidad, fechas, franjas, weekday_hoy, turno_id)
+    print(mensaje)
