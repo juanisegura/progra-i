@@ -505,3 +505,28 @@ def buscar_turno_por_id(turnos, turno_id):
         if turno["id"] == turno_id:
             return turno
     return None
+
+
+def listar_turnos(turnos, pacientes, medicos, areas, medico_id=None, area_id=None, estado=None):
+    filtrados = [
+        t for t in turnos
+        if (medico_id is None or t["medico_id"] == medico_id)
+        and (area_id is None or t["area_id"] == area_id)
+        and (estado is None or t["estado"] == estado)
+    ]
+    print(f"\n--- TURNOS ({len(filtrados)}) ---")
+    if len(filtrados) == 0:
+        print("No hay turnos para este filtro.")
+    for turno in filtrados:
+        paciente = buscar_paciente_por_dni(pacientes, turno["paciente_dni"])
+        medico = buscar_medico_por_id(medicos, turno["medico_id"])
+        area = buscar_area_por_id(areas, turno["area_id"])
+        nombre_paciente = paciente["nombre"] if paciente is not None else "Paciente eliminado"
+        nombre_medico = medico["nombre"] if medico is not None else "Medico eliminado"
+        nombre_area = area["nombre"] if area is not None else "Area eliminada"
+        fecha_texto = f"{turno['dia']:02d}/{turno['mes']:02d}/{turno['anio']}"
+        fila = (
+            f"#{turno['id']:<4}{fecha_texto} {turno['hora']:<7}"
+            f"{nombre_paciente:<22}Dr/a. {nombre_medico:<18}{nombre_area:<14}{turno['estado']}"
+        )
+        print(fila)
