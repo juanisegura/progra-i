@@ -46,3 +46,18 @@ def pedir_entero_valido(mensaje, minimo, maximo):
             print(f"Dato invalido. Ingrese un numero entero entre {minimo} y {maximo}.")
         else:
             return valor
+
+
+def pedir_texto_valido(mensaje, min_len, max_len, transformar=None):
+    while True:
+        texto = input(mensaje).strip()
+        if len(texto) < min_len or len(texto) > max_len:
+            print(f"Dato invalido. Debe tener entre {min_len} y {max_len} caracteres.")
+            continue
+        if transformar == "titulo":
+            texto = texto.title()
+        elif transformar == "mayusculas":
+            texto = texto.upper()
+        elif transformar == "minusculas":
+            texto = texto.lower()
+        return texto
