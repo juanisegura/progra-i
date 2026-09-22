@@ -94,3 +94,8 @@ def generar_proximos_dias(fecha_inicio, cantidad):
     if cantidad <= 0:
         return []
     return [fecha_inicio] + generar_proximos_dias(avanzar_un_dia(fecha_inicio), cantidad - 1)
+
+
+def nombre_dia_semana(weekday_hoy, offset_desde_hoy):
+    indice = (weekday_hoy + offset_desde_hoy) % 7
+    return NOMBRES_DIAS_SEMANA[indice]
