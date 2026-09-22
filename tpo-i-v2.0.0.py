@@ -296,3 +296,12 @@ def crear_paciente(pacientes):
     paciente = {"dni": dni, "nombre": nombre, "edad": edad, "mail": mail}
     pacientes.append(paciente)
     return paciente
+
+
+def listar_pacientes(pacientes):
+    print(f"\n--- PACIENTES REGISTRADOS ({len(pacientes)}) ---")
+    if len(pacientes) == 0:
+        print("No hay pacientes cargados.")
+    for paciente in pacientes:
+        fila = f"{paciente['dni']:<10}{paciente['nombre']:<26}{paciente['edad']:<5}{paciente['mail']}"
+        print(fila)
