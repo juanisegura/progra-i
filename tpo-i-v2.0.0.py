@@ -704,147 +704,33 @@ def generar_comprobante(paciente, area, medico, turno):
     return comprobante
 
 
-# --- Archivos (persistencia en texto plano, sin csv/json) -----------------
+# --- Archivos (persistencia en JSON, Clase 9b) -----------------------------
 
-def guardar_lineas_en_archivo(nombre_archivo, lineas):
-    archivo = None
+def guardar_json(nombre_archivo, datos):
     try:
-        archivo = open(nombre_archivo, "w", encoding="utf-8")
-        for linea in lineas:
-            archivo.write(linea + "\n")
+        arch = open(nombre_archivo, "wt", encoding="utf-8")
+        json.dump(datos, arch)
     except OSError as error:
         print(f"No se pudo guardar {nombre_archivo}: {error}")
     finally:
-        if archivo is not None:
-            archivo.close()
+        try:
+            arch.close()
+        except NameError:
+            pass
 
 
-def leer_lineas_archivo(nombre_archivo):
+def cargar_json(nombre_archivo):
     try:
-        with open(nombre_archivo, "r", encoding="utf-8") as archivo:
-            lineas = [linea.rstrip("\n") for linea in archivo]
-    except FileNotFoundError:
-        lineas = []
-    return lineas
-
-
-def guardar_areas(areas):
-    lineas = []
-    for area in areas:
-        estudios_texto = ",".join(area["estudios"])
-        linea = SEPARADOR_CAMPO.join([str(area["id"]), area["nombre"], estudios_texto])
-        lineas.append(linea)
-    guardar_lineas_en_archivo(ARCHIVO_AREAS, lineas)
-
-
-def cargar_areas():
-    lineas = leer_lineas_archivo(ARCHIVO_AREAS)
-    areas = []
-    for linea in lineas:
+        arch = open(nombre_archivo, "rt", encoding="utf-8")
+        datos = json.load(arch)
+    except (FileNotFoundError, json.JSONDecodeError):
+        datos = []
+    finally:
         try:
-            partes = linea.split(SEPARADOR_CAMPO)
-            area_id = int(partes[0])
-            nombre = partes[1]
-            estudios = partes[2].split(",") if partes[2] != "" else []
-            areas.append({"id": area_id, "nombre": nombre, "estudios": estudios})
-        except (ValueError, IndexError):
-            print(f"Linea invalida en {ARCHIVO_AREAS}, se ignora: {linea}")
-    return areas
-
-
-def guardar_medicos(medicos):
-    lineas = []
-    for medico in medicos:
-        linea = SEPARADOR_CAMPO.join([str(medico["id"]), medico["nombre"], str(medico["area_id"])])
-        lineas.append(linea)
-    guardar_lineas_en_archivo(ARCHIVO_MEDICOS, lineas)
-
-
-def cargar_medicos():
-    lineas = leer_lineas_archivo(ARCHIVO_MEDICOS)
-    medicos = []
-    for linea in lineas:
-        try:
-            partes = linea.split(SEPARADOR_CAMPO)
-            medicos.append({"id": int(partes[0]), "nombre": partes[1], "area_id": int(partes[2])})
-        except (ValueError, IndexError):
-            print(f"Linea invalida en {ARCHIVO_MEDICOS}, se ignora: {linea}")
-    return medicos
-
-
-def guardar_pacientes(pacientes):
-    lineas = []
-    for paciente in pacientes:
-        linea = SEPARADOR_CAMPO.join(
-            [paciente["dni"], paciente["nombre"], str(paciente["edad"]), paciente["mail"]]
-        )
-        lineas.append(linea)
-    guardar_lineas_en_archivo(ARCHIVO_PACIENTES, lineas)
-
-
-def cargar_pacientes():
-    lineas = leer_lineas_archivo(ARCHIVO_PACIENTES)
-    pacientes = []
-    for linea in lineas:
-        try:
-            partes = linea.split(SEPARADOR_CAMPO)
-            pacientes.append({
-                "dni": partes[0],
-                "nombre": partes[1],
-                "edad": int(partes[2]),
-                "mail": partes[3],
-            })
-        except (ValueError, IndexError):
-            print(f"Linea invalida en {ARCHIVO_PACIENTES}, se ignora: {linea}")
-    return pacientes
-
-
-def guardar_turnos(turnos):
-    lineas = []
-    for turno in turnos:
-        linea = SEPARADOR_CAMPO.join([
-            str(turno["id"]),
-            turno["paciente_dni"],
-            str(turno["medico_id"]),
-            str(turno["area_id"]),
-            turno["estudio"],
-            str(turno["anio"]),
-            str(turno["mes"]),
-            str(turno["dia"]),
-            turno["hora"],
-            turno["tipo"],
-            turno["estado"],
-            turno["cobertura"],
-            str(int(turno["monto"])),
-        ])
-        lineas.append(linea)
-    guardar_lineas_en_archivo(ARCHIVO_TURNOS, lineas)
-
-
-def cargar_turnos():
-    lineas = leer_lineas_archivo(ARCHIVO_TURNOS)
-    turnos = []
-    for linea in lineas:
-        try:
-            partes = linea.split(SEPARADOR_CAMPO)
-            turnos.append({
-                "id": int(partes[0]),
-                "paciente_dni": partes[1],
-                "medico_id": int(partes[2]),
-                "area_id": int(partes[3]),
-                "estudio": partes[4],
-                "anio": int(partes[5]),
-                "mes": int(partes[6]),
-                "dia": int(partes[7]),
-                "hora": partes[8],
-                "tipo": partes[9],
-                "estado": partes[10],
-                "cobertura": partes[11],
-                "monto": int(partes[12]),
-            })
-        except (ValueError, IndexError):
-            print(f"Linea invalida en {ARCHIVO_TURNOS}, se ignora: {linea}")
-    return turnos
+            arch.close()
+        except NameError:
+            pass
+    return datos
 
 
 def reconstruir_disponibilidad(turnos, fechas, franjas):
@@ -863,18 +749,18 @@ def reconstruir_disponibilidad(turnos, fechas, franjas):
 
 
 def guardar_datos(areas, medicos, pacientes, turnos):
-    guardar_areas(areas)
-    guardar_medicos(medicos)
-    guardar_pacientes(pacientes)
-    guardar_turnos(turnos)
-    print("\nDatos guardados en areas.txt, medicos.txt, pacientes.txt y turnos.txt.")
+    guardar_json(ARCHIVO_AREAS, areas)
+    guardar_json(ARCHIVO_MEDICOS, medicos)
+    guardar_json(ARCHIVO_PACIENTES, pacientes)
+    guardar_json(ARCHIVO_TURNOS, turnos)
+    print(f"\nDatos guardados en {ARCHIVO_AREAS}, {ARCHIVO_MEDICOS}, {ARCHIVO_PACIENTES} y {ARCHIVO_TURNOS}.")
 
 
 def cargar_datos():
-    areas = cargar_areas()
-    medicos = cargar_medicos()
-    pacientes = cargar_pacientes()
-    turnos = cargar_turnos()
+    areas = cargar_json(ARCHIVO_AREAS)
+    medicos = cargar_json(ARCHIVO_MEDICOS)
+    pacientes = cargar_json(ARCHIVO_PACIENTES)
+    turnos = cargar_json(ARCHIVO_TURNOS)
     return areas, medicos, pacientes, turnos
 
 
