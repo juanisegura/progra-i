@@ -1,8 +1,5 @@
 __pycache__/
 *.pyc
 
-# Datos de runtime del sistema de turnos (se regeneran solos via seed_datos_iniciales)
-areas.json
-medicos.json
-pacientes.json
-turnos.json
+# areas.json/medicos.json/pacientes.json/turnos.json quedan versionados a
+# proposito como datos de prueba (ver commit que los agrego); no se ignoran.
