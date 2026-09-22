@@ -957,3 +957,35 @@ def ejecutar_gestion_medicos(medicos, areas, turnos):
                 print(mensaje)
             case 5:
                 continuar_submenu = False
+
+
+def ejecutar_gestion_pacientes(pacientes, turnos):
+    continuar_submenu = True
+    while continuar_submenu:
+        print("\n--- GESTION DE PACIENTES ---")
+        print("1. Listar pacientes")
+        print("2. Crear paciente")
+        print("3. Actualizar mail de un paciente")
+        print("4. Eliminar paciente")
+        print("5. Volver al menu principal")
+        opcion = pedir_entero_valido("Elija una opcion (1-5): ", 1, 5)
+
+        match opcion:
+            case 1:
+                listar_pacientes(pacientes)
+            case 2:
+                paciente = crear_paciente(pacientes)
+                print(f"Paciente {paciente['nombre']} listo (DNI {paciente['dni']}).")
+            case 3:
+                dni = pedir_dni_valido("DNI del paciente: ")
+                mail_nuevo = pedir_texto_valido("Nuevo mail: ", 10, 200, transformar="minusculas")
+                if actualizar_paciente(pacientes, dni, mail_nuevo=mail_nuevo):
+                    print("Mail actualizado.")
+                else:
+                    print("No existe un paciente con ese DNI.")
+            case 4:
+                dni = pedir_dni_valido("DNI del paciente a eliminar: ")
+                ok, mensaje = eliminar_paciente(pacientes, turnos, dni)
+                print(mensaje)
+            case 5:
+                continuar_submenu = False
