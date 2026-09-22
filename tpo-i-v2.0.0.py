@@ -232,3 +232,12 @@ def obtener_matriz_medico(disponibilidad, medico_id, cantidad_dias, cantidad_fra
 
 def obtener_franjas_libres(matriz, franjas, dia_idx):
     return [franjas[f] for f in range(len(franjas)) if matriz[dia_idx][f] == "Libre"]
+
+
+def mostrar_franjas_libres(nombre_dia, fecha_texto, franjas_libres):
+    print(f"\nHorarios libres el {nombre_dia} {fecha_texto}:")
+    if len(franjas_libres) == 0:
+        print("No hay horarios libres para este dia.")
+    else:
+        for franja in franjas_libres:
+            print(f"- {franja}")
