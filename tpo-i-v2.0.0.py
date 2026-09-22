@@ -5,10 +5,12 @@ Sistema de Reserva de Turnos Medicos - tema 13 del listado oficial del TPO.
 Tecnicas obligatorias aplicadas: Funciones, Matrices, Cadenas, Diccionarios,
 Excepciones, Archivos, Recursividad.
 Modulos permitidos por la catedra: time, os, colorama (no usados por ahora),
-datetime (solo para la fecha actual).
+datetime (solo para la fecha actual), json (dado explicitamente en la
+Clase 9b - Archivos JSON).
 """
 
 from datetime import date
+import json
 
 # --- Configuracion general ---------------------------------------------
 
@@ -25,12 +27,10 @@ HORA_CIERRE = "18:00"
 PASO_MINUTOS = 10
 HORIZONTE_DIAS = 60
 
-ARCHIVO_AREAS = "areas.txt"
-ARCHIVO_MEDICOS = "medicos.txt"
-ARCHIVO_PACIENTES = "pacientes.txt"
-ARCHIVO_TURNOS = "turnos.txt"
-
-SEPARADOR_CAMPO = "|"
+ARCHIVO_AREAS = "areas.json"
+ARCHIVO_MEDICOS = "medicos.json"
+ARCHIVO_PACIENTES = "pacientes.json"
+ARCHIVO_TURNOS = "turnos.json"
 
 
 # --- Utilidades de entrada/validacion (Cadenas + Excepciones) -----------
