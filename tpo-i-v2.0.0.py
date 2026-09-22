@@ -218,6 +218,14 @@ def eliminar_medico(medicos, turnos, medico_id):
     return True, "Medico eliminado."
 
 
+def agregar_estudio_area(areas, area_id, nombre_estudio):
+    area = buscar_area_por_id(areas, area_id)
+    if area is None:
+        return False
+    area["estudios"].append(nombre_estudio)
+    return True
+
+
 # --- Disponibilidad por medico (Matrices) ---------------------------------
 
 def inicializar_matriz_disponibilidad(cantidad_dias, cantidad_franjas):
