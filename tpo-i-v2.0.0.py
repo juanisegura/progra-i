@@ -115,3 +115,12 @@ def generar_franjas_horarias(hora_inicio, hora_fin, paso_minutos):
         franjas.append(f"{h:02d}:{m:02d}")
         minuto_actual += paso_minutos
     return franjas
+
+
+# --- Utilidad comun de ids ------------------------------------------------
+
+def generar_siguiente_id(lista):
+    if len(lista) == 0:
+        return 1
+    ids = [elemento["id"] for elemento in lista]
+    return max(ids) + 1
