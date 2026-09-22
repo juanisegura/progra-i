@@ -203,3 +203,16 @@ def actualizar_medico(medicos, medico_id, nombre_nuevo=None, area_id_nuevo=None)
     if area_id_nuevo is not None:
         medico["area_id"] = area_id_nuevo
     return True
+
+
+def eliminar_medico(medicos, turnos, medico_id):
+    medico = buscar_medico_por_id(medicos, medico_id)
+    if medico is None:
+        return False, "El medico no existe."
+    tiene_turnos_activos = any(
+        turno["medico_id"] == medico_id and turno["estado"] == "reservado" for turno in turnos
+    )
+    if tiene_turnos_activos:
+        return False, "No se puede eliminar: el medico tiene turnos reservados."
+    medicos.remove(medico)
+    return True, "Medico eliminado."
