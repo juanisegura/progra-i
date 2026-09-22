@@ -79,3 +79,12 @@ def dias_en_mes(mes, anio):
     if mes == 2 and es_bisiesto(anio):
         dias = 29
     return dias
+
+
+def avanzar_un_dia(fecha):
+    anio, mes, dia = fecha
+    if dia < dias_en_mes(mes, anio):
+        return (anio, mes, dia + 1)
+    if mes < 12:
+        return (anio, mes + 1, 1)
+    return (anio + 1, 1, 1)
