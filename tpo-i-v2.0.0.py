@@ -373,6 +373,10 @@ def corregir_dni_paciente(pacientes, turnos, dni_actual, dni_nuevo):
     return True, "DNI corregido (se actualizaron tambien sus turnos)."
 
 
+def filtrar_pacientes_por_edad(pacientes, edad_min, edad_max):
+    return [p for p in pacientes if edad_min <= p["edad"] <= edad_max]
+
+
 # --- Seleccion interactiva para reservar un turno -------------------------
 
 def elegir_area(areas):
