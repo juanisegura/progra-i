@@ -407,3 +407,18 @@ def elegir_mes(fechas):
         print(f"{i + 1}. {NOMBRES_MESES[mes - 1]} {anio}")
     opcion = pedir_entero_valido(f"Elija un mes (1-{len(meses)}): ", 1, len(meses))
     return meses[opcion - 1]
+
+
+def elegir_dia_del_mes(fechas, weekday_hoy, anio_mes_elegido):
+    anio_sel, mes_sel = anio_mes_elegido
+    indices_del_mes = [
+        i for i in range(len(fechas)) if fechas[i][0] == anio_sel and fechas[i][1] == mes_sel
+    ]
+    print(f"\n--- DIAS DISPONIBLES EN {NOMBRES_MESES[mes_sel - 1]} {anio_sel} ---")
+    for pos in range(len(indices_del_mes)):
+        idx = indices_del_mes[pos]
+        _, _, dia = fechas[idx]
+        nombre_dia = nombre_dia_semana(weekday_hoy, idx)
+        print(f"{pos + 1}. {nombre_dia} {dia:02d}/{mes_sel:02d}")
+    opcion = pedir_entero_valido(f"Elija un dia (1-{len(indices_del_mes)}): ", 1, len(indices_del_mes))
+    return indices_del_mes[opcion - 1]
