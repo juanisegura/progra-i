@@ -498,3 +498,10 @@ def crear_turno(turnos, disponibilidad, fechas, franjas, weekday_hoy, paciente, 
     }
     turnos.append(turno)
     return turno
+
+
+def buscar_turno_por_id(turnos, turno_id):
+    for turno in turnos:
+        if turno["id"] == turno_id:
+            return turno
+    return None
