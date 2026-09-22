@@ -422,3 +422,14 @@ def elegir_dia_del_mes(fechas, weekday_hoy, anio_mes_elegido):
         print(f"{pos + 1}. {nombre_dia} {dia:02d}/{mes_sel:02d}")
     opcion = pedir_entero_valido(f"Elija un dia (1-{len(indices_del_mes)}): ", 1, len(indices_del_mes))
     return indices_del_mes[opcion - 1]
+
+
+def elegir_franja(matriz, franjas, dia_idx, nombre_dia, fecha_texto):
+    franjas_libres = obtener_franjas_libres(matriz, franjas, dia_idx)
+    mostrar_franjas_libres(nombre_dia, fecha_texto, franjas_libres)
+    if len(franjas_libres) == 0:
+        return None
+    hora_elegida = input("Ingrese el horario deseado (formato HH:MM): ").strip()
+    while hora_elegida not in franjas_libres:
+        hora_elegida = input("Horario invalido u ocupado. Reingrese: ").strip()
+    return franjas.index(hora_elegida)
