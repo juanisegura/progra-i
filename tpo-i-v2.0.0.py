@@ -255,3 +255,19 @@ def buscar_primer_hueco_libre(matriz, cantidad_dias, cantidad_franjas, dia_idx=0
     if matriz[dia_idx][franja_idx] == "Libre":
         return (dia_idx, franja_idx)
     return buscar_primer_hueco_libre(matriz, cantidad_dias, cantidad_franjas, dia_idx, franja_idx + 1)
+
+
+# --- CRUD Pacientes (Diccionarios + Excepciones) --------------------------
+
+def pedir_dni_valido(mensaje):
+    while True:
+        dni = input(mensaje).strip()
+        try:
+            if not dni.isdigit():
+                raise ValueError("el DNI debe contener solo numeros.")
+            if len(dni) < 7 or len(dni) > 8:
+                raise ValueError("el DNI debe tener 7 u 8 digitos.")
+        except ValueError as error:
+            print(f"Dato invalido: {error}")
+        else:
+            return dni
