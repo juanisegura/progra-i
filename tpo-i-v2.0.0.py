@@ -574,3 +574,21 @@ def consultar_turnos_disponibles(areas, medicos, disponibilidad, fechas, franjas
     fecha_texto = f"{dia:02d}/{mes:02d}/{anio}"
     franjas_libres = obtener_franjas_libres(matriz, franjas, dia_idx)
     mostrar_franjas_libres(nombre_dia, fecha_texto, franjas_libres)
+
+
+def cancelar_turno(turnos, disponibilidad, fechas, franjas, turno_id):
+    turno = buscar_turno_por_id(turnos, turno_id)
+    if turno is None:
+        return False, "El turno no existe."
+    if turno["estado"] == "cancelado":
+        return False, "El turno ya estaba cancelado."
+
+    fecha_turno = (turno["anio"], turno["mes"], turno["dia"])
+    matriz = disponibilidad.get(turno["medico_id"])
+    if matriz is not None and fecha_turno in fechas and turno["hora"] in franjas:
+        dia_idx = fechas.index(fecha_turno)
+        franja_idx = franjas.index(turno["hora"])
+        marcar_franja(matriz, dia_idx, franja_idx, "Libre")
+
+    turno["estado"] = "cancelado"
+    return True, "Turno cancelado."
