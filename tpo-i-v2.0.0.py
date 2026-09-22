@@ -649,3 +649,18 @@ def generar_comprobante(paciente, area, medico, turno):
     comprobante = "\n".join(lineas)
     print("\n" + comprobante)
     return comprobante
+
+
+# --- Archivos (persistencia en texto plano, sin csv/json) -----------------
+
+def guardar_lineas_en_archivo(nombre_archivo, lineas):
+    archivo = None
+    try:
+        archivo = open(nombre_archivo, "w", encoding="utf-8")
+        for linea in lineas:
+            archivo.write(linea + "\n")
+    except OSError as error:
+        print(f"No se pudo guardar {nombre_archivo}: {error}")
+    finally:
+        if archivo is not None:
+            archivo.close()
