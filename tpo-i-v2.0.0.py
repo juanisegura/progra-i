@@ -673,3 +673,12 @@ def leer_lineas_archivo(nombre_archivo):
     except FileNotFoundError:
         lineas = []
     return lineas
+
+
+def guardar_areas(areas):
+    lineas = []
+    for area in areas:
+        estudios_texto = ",".join(area["estudios"])
+        linea = SEPARADOR_CAMPO.join([str(area["id"]), area["nombre"], estudios_texto])
+        lineas.append(linea)
+    guardar_lineas_en_archivo(ARCHIVO_AREAS, lineas)
