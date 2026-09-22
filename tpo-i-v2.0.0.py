@@ -823,3 +823,28 @@ def cargar_datos():
     pacientes = cargar_pacientes()
     turnos = cargar_turnos()
     return areas, medicos, pacientes, turnos
+
+
+# --- Estadisticas -----------------------------------------------------------
+
+def calcular_estadisticas(turnos, medicos, areas):
+    por_area = {}
+    por_medico = {}
+    for turno in turnos:
+        area = buscar_area_por_id(areas, turno["area_id"])
+        nombre_area = area["nombre"] if area is not None else "Area eliminada"
+        por_area[nombre_area] = por_area.get(nombre_area, 0) + 1
+
+        medico = buscar_medico_por_id(medicos, turno["medico_id"])
+        nombre_medico = medico["nombre"] if medico is not None else "Medico eliminado"
+        por_medico[nombre_medico] = por_medico.get(nombre_medico, 0) + 1
+
+    return {
+        "total": len(turnos),
+        "reservados": len([t for t in turnos if t["estado"] == "reservado"]),
+        "cancelados": len([t for t in turnos if t["estado"] == "cancelado"]),
+        "urgencias": len([t for t in turnos if t["tipo"] == "urgencia"]),
+        "futuros": len([t for t in turnos if t["tipo"] == "futuro"]),
+        "por_area": por_area,
+        "por_medico": por_medico,
+    }
