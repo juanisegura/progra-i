@@ -452,3 +452,49 @@ def obra_social():
             monto_final = precio_particular
 
     return nombre_os, monto_final
+
+
+# --- CRUD Turnos (nucleo del sistema) --------------------------------------
+
+def crear_turno(turnos, disponibilidad, fechas, franjas, weekday_hoy, paciente, area, medico, estudio, tipo, cobertura, monto):
+    cantidad_dias = len(fechas)
+    cantidad_franjas = len(franjas)
+    matriz = obtener_matriz_medico(disponibilidad, medico["id"], cantidad_dias, cantidad_franjas)
+
+    if tipo == "urgencia":
+        hueco = buscar_primer_hueco_libre(matriz, cantidad_dias, cantidad_franjas)
+        if hueco is None:
+            print("No hay ningun horario libre para este medico en todo el horizonte disponible.")
+            return None
+        dia_idx, franja_idx = hueco
+    else:
+        anio_mes_elegido = elegir_mes(fechas)
+        dia_idx = elegir_dia_del_mes(fechas, weekday_hoy, anio_mes_elegido)
+        anio, mes, dia = fechas[dia_idx]
+        nombre_dia = nombre_dia_semana(weekday_hoy, dia_idx)
+        fecha_texto = f"{dia:02d}/{mes:02d}/{anio}"
+        franja_idx = elegir_franja(matriz, franjas, dia_idx, nombre_dia, fecha_texto)
+        if franja_idx is None:
+            print(f"No hay horarios libres ese dia para el/la Dr/a. {medico['nombre']}.")
+            return None
+
+    marcar_franja(matriz, dia_idx, franja_idx, "Ocupado")
+    anio, mes, dia = fechas[dia_idx]
+
+    turno = {
+        "id": generar_siguiente_id(turnos),
+        "paciente_dni": paciente["dni"],
+        "medico_id": medico["id"],
+        "area_id": area["id"],
+        "estudio": estudio,
+        "anio": anio,
+        "mes": mes,
+        "dia": dia,
+        "hora": franjas[franja_idx],
+        "tipo": tipo,
+        "estado": "reservado",
+        "cobertura": cobertura,
+        "monto": monto,
+    }
+    turnos.append(turno)
+    return turno
