@@ -318,3 +318,16 @@ def actualizar_paciente(pacientes, dni, nombre_nuevo=None, edad_nueva=None, mail
     if mail_nuevo is not None:
         paciente["mail"] = mail_nuevo
     return True
+
+
+def eliminar_paciente(pacientes, turnos, dni):
+    paciente = buscar_paciente_por_dni(pacientes, dni)
+    if paciente is None:
+        return False, "El paciente no existe."
+    tiene_turnos_activos = any(
+        turno["paciente_dni"] == dni and turno["estado"] == "reservado" for turno in turnos
+    )
+    if tiene_turnos_activos:
+        return False, "No se puede eliminar: el paciente tiene turnos reservados."
+    pacientes.remove(paciente)
+    return True, "Paciente eliminado."
