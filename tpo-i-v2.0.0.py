@@ -1102,12 +1102,13 @@ def ejecutar_reserva_turno(pacientes, areas, medicos, turnos, disponibilidad, fe
 def ejecutar_consulta_turnos(pacientes, medicos, areas, turnos, disponibilidad, fechas, franjas, weekday_hoy):
     continuar_submenu = True
     while continuar_submenu:
-        print("\n--- CONSULTAR TURNOS ---")
+        print("\n--- CONSULTAR DATOS ---")
         print("1. Ver horarios disponibles de un medico")
         print("2. Ver turnos de un paciente (por DNI)")
         print("3. Listar todos los turnos")
-        print("4. Volver al menu principal")
-        opcion = pedir_entero_valido("Elija una opcion (1-4): ", 1, 4)
+        print("4. Listar medicos (por area)")
+        print("5. Volver al menu principal")
+        opcion = pedir_entero_valido("Elija una opcion (1-5): ", 1, 5)
 
         match opcion:
             case 1:
@@ -1118,6 +1119,8 @@ def ejecutar_consulta_turnos(pacientes, medicos, areas, turnos, disponibilidad, 
             case 3:
                 listar_turnos(turnos, pacientes, medicos, areas)
             case 4:
+                listar_medicos(medicos, areas)
+            case 5:
                 continuar_submenu = False
 
 
