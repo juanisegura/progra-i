@@ -88,3 +88,9 @@ def avanzar_un_dia(fecha):
     if mes < 12:
         return (anio, mes + 1, 1)
     return (anio + 1, 1, 1)
+
+
+def generar_proximos_dias(fecha_inicio, cantidad):
+    if cantidad <= 0:
+        return []
+    return [fecha_inicio] + generar_proximos_dias(avanzar_un_dia(fecha_inicio), cantidad - 1)
