@@ -339,3 +339,18 @@ def eliminar_paciente(pacientes, turnos, dni):
         return False, "No se puede eliminar: el paciente tiene turnos reservados."
     pacientes.remove(paciente)
     return True, "Paciente eliminado."
+
+
+# --- Seleccion interactiva para reservar un turno -------------------------
+
+def elegir_area(areas):
+    listar_areas(areas)
+    if len(areas) == 0:
+        return None
+    ids_validos = [area["id"] for area in areas]
+    while True:
+        area_id = pedir_entero_valido("Elija un area por su numero: ", min(ids_validos), max(ids_validos))
+        area = buscar_area_por_id(areas, area_id)
+        if area is not None:
+            return area
+        print("Ese numero no corresponde a un area cargada, reintente.")
