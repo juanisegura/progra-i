@@ -766,3 +766,29 @@ def guardar_turnos(turnos):
         ])
         lineas.append(linea)
     guardar_lineas_en_archivo(ARCHIVO_TURNOS, lineas)
+
+
+def cargar_turnos():
+    lineas = leer_lineas_archivo(ARCHIVO_TURNOS)
+    turnos = []
+    for linea in lineas:
+        try:
+            partes = linea.split(SEPARADOR_CAMPO)
+            turnos.append({
+                "id": int(partes[0]),
+                "paciente_dni": partes[1],
+                "medico_id": int(partes[2]),
+                "area_id": int(partes[3]),
+                "estudio": partes[4],
+                "anio": int(partes[5]),
+                "mes": int(partes[6]),
+                "dia": int(partes[7]),
+                "hora": partes[8],
+                "tipo": partes[9],
+                "estado": partes[10],
+                "cobertura": partes[11],
+                "monto": float(partes[12]),
+            })
+        except (ValueError, IndexError):
+            print(f"Linea invalida en {ARCHIVO_TURNOS}, se ignora: {linea}")
+    return turnos
